@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *head = NULL;
+
+// Insert at end
+// Time Complexity: O(n)
+void insert(int value) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+
+    struct Node *temp = head;
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = newNode;
+}
+
+// Search element
+// Time Complexity: O(n)
+void search(int value) {
+    struct Node *temp = head;
+
+    while (temp != NULL) {
+        if (temp->data == value) {
+            printf("%d Found\n", value);
+            return;
+        }
+        temp = temp->next;
+    }
+
+    printf("%d Not Found\n", value);
+}
+
+// Delete element
+// Time Complexity: O(n)
+void deleteNode(int value) {
+    struct Node *temp = head;
+    struct Node *prev = NULL;
+
+    while (temp != NULL && temp->data != value) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL) {
+        printf("Element not found.\n");
+        return;
+    }
+
+    if (prev == NULL)
+        head = temp->next;
+    else
+        prev->next = temp->next;
+
+    free(temp);
+}
+
+// Display List
+// Time Complexity: O(n)
+void display() {
+    struct Node *temp = head;
+
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+
+    printf("NULL\n");
+}
+
+int main() {
+
+    insert(10);
+    insert(20);
+    insert(30);
+    insert(40);
+
+    printf("Linked List:\n");
+    display();
+
+    search(20);
+
+    deleteNode(20);
+
+    printf("After Deletion:\n");
+    display();
+
+    return 0;
+}
